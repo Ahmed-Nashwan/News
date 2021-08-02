@@ -34,11 +34,10 @@ class NewsActivity : AppCompatActivity() {
 
 
 
-
-
         val bottom_nav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         val navController = findNavController(R.id.fragment)
         bottom_nav.setupWithNavController(navController)
+
 
 
 

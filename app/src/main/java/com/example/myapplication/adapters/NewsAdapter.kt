@@ -72,7 +72,6 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
 
     fun setOnClickListener(listener:(Article)->Unit){
         onItemClickListener = listener
-
     }
 
 

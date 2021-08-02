@@ -34,14 +34,19 @@
         android:name="com.example.myapplication.fragments.SearchFragment"
         android:label="SearchFragment" >
 
+
         <action
             android:id="@+id/action_searchFragment_to_newsAcrticleFragment"
             app:destination="@id/newsAcrticleFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_article"
         android:id="@+id/newsAcrticleFragment"
         android:name="com.example.myapplication.fragments.NewsAcrticleFragment"
         android:label="NewsAcrticleFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.example.myapplication.models.Article" />
     </fragment>
 
 

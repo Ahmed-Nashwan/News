@@ -8,6 +8,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.NewsActivity
@@ -28,6 +30,7 @@ class SearchFragment : Fragment(R.layout.fragment_search_news){
     var progressBar: ProgressBar? = null
     var tv_no_Internet: TextView? = null
     var et_search: EditText? = null
+    val args:NewsAcrticleFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rvSearchNews)
@@ -38,6 +41,18 @@ class SearchFragment : Fragment(R.layout.fragment_search_news){
 
 
         setupAdapter()
+
+        adapter.setOnClickListener {
+
+            val bundle = Bundle().apply {
+                putSerializable("article", it)
+            }
+
+            findNavController().navigate(
+                R.id.action_searchFragment_to_newsAcrticleFragment,
+                bundle
+            )
+        }
 
         var job:Job?=null
         et_search?.addTextChangedListener { editable->
