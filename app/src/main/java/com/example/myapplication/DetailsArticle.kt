@@ -12,7 +12,10 @@ class DetailsArticle : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding?.root)
 
+
+
        // intent.getSerializableExtra("details_article")
+
 
 
 

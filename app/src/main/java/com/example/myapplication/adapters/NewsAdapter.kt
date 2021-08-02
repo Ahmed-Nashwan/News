@@ -65,11 +65,6 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
             binding.tvTitle.text = article.title
 
         }
-
-
-
-
-
     }
 
 
