@@ -20,6 +20,7 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
 
             return oldItem.url ==newItem.url
+
         }
 
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -41,6 +42,7 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
 
         holder.bindData(article,context)
 
+
       holder.itemView.setOnClickListener{
 
           onItemClickListener?.let { it(article) }
@@ -58,6 +60,7 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
     class MyViewHolder(private val binding: ItemArticlePreviewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(article: Article,context: Context) {
+
             Glide.with(context).load(article.urlToImage).placeholder(R.drawable.ic_breaking_news).into(binding.ivArticleImage)
             binding.tvDescription.text = article.description
             binding.tvPublishedAt.text = article.publishedAt

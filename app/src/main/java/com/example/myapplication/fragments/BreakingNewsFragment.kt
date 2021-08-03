@@ -26,23 +26,9 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
     lateinit var newsViewModel: NewsViewModel
     lateinit var adapter: NewsAdapter
-    val args: NewsAcrticleFragmentArgs by navArgs()
-
-    //  var binding: FragmentBreakingNewsBinding? = null
     var recyclerView: RecyclerView? = null
     var progressBar: ProgressBar? = null
     var tv_no_Internet: TextView? = null
-
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//
-//        binding = FragmentBreakingNewsBinding.inflate(layoutInflater,container,false)
-//  return binding?.root
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //  binding = FragmentBreakingNewsBinding.inflate(layoutInflater)

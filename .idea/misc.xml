@@ -6,7 +6,11 @@
         <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/activity_details_article.xml" value="0.1213768115942029" />
         <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/activity_news.xml" value="0.1" />
         <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/fragment_article.xml" value="0.1213768115942029" />
+        <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/fragment_breaking_news.xml" value="0.1" />
         <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/fragment_saved_news.xml" value="0.10778985507246377" />
+        <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/fragment_search_news.xml" value="0.1" />
+        <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/layout/item_article_preview.xml" value="0.1" />
+        <entry key="..\:/kotlin/MvvmNewsApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.18564102564102564" />
       </map>
     </option>
   </component>

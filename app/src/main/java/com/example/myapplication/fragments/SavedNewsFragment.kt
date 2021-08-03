@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.NewsActivity
 import com.example.myapplication.R
 import com.example.myapplication.adapters.NewsAdapter
+import com.example.myapplication.models.Article
 import com.example.myapplication.view_model.NewsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -20,17 +23,11 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
     lateinit var newsViewModel: NewsViewModel
     lateinit var adapter: NewsAdapter
     var recyclerView: RecyclerView? = null
-    var fab: FloatingActionButton? = null
 
-    // var tv_no_Internet: TextView? = null
-    val args: NewsAcrticleFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         newsViewModel = (activity as NewsActivity).newsViewModel
-        fab = view.findViewById(R.id.fab)
         recyclerView = view.findViewById(R.id.rvSavedNews)
-        // progressBar = view.findViewById(R.id.paginationProgressBar)
-        //  tv_no_Internet = view.findViewById(R.id.tv_no_Internet)
 
 
         newsViewModel.getAllNews().observe(viewLifecycleOwner, { articles ->
@@ -39,11 +36,42 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
         })
         setupAdapter()
 
-        fab?.setOnClickListener {
-            newsViewModel.insert(args.article)
-            Snackbar.make(view, "Article by author ${args.article.author}", Snackbar.LENGTH_SHORT)
-                .show()
 
+        val itemTouchHelperCallBack =
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                    val a: Article =
+                        adapter.asyncListDiffer.currentList[viewHolder.absoluteAdapterPosition]
+                    newsViewModel.delete(a)
+
+                    Snackbar.make(view, "Article by author ${a.author} deleted", Snackbar.LENGTH_SHORT)
+                        .apply {
+                            setAction("Undo"){
+                                newsViewModel.insert(a)
+                            }
+                            show()
+
+                        }
+
+
+                }
+            }
+
+        ItemTouchHelper(itemTouchHelperCallBack).apply {
+            attachToRecyclerView(recyclerView)
         }
 
         adapter.setOnClickListener {
@@ -56,8 +84,8 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
                 R.id.action_searchFragment_to_newsAcrticleFragment,
                 bundle
             )
-        }
 
+        }
 
 
     }

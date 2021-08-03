@@ -14,9 +14,7 @@
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/bottom_nav_view"
-
-            >
+            android:layout_above="@id/bottom_nav_view">
 
             <fragment
                 android:name="androidx.navigation.fragment.NavHostFragment"
@@ -30,11 +28,11 @@
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
         android:id="@+id/bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"
         android:fitsSystemWindows="true"
-        android:layout_height="56dp" />
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>
