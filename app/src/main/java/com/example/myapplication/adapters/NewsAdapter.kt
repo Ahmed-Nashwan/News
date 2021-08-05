@@ -23,6 +23,7 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
 
         }
 
+
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
            return oldItem==newItem
         }
@@ -64,7 +65,7 @@ class NewsAdapter(var context: Context) :RecyclerView.Adapter<NewsAdapter.MyView
             Glide.with(context).load(article.urlToImage).placeholder(R.drawable.ic_breaking_news).into(binding.ivArticleImage)
             binding.tvDescription.text = article.description
             binding.tvPublishedAt.text = article.publishedAt
-            binding.tvSource.text = article.source.name
+            binding.tvSource.text = article.source?.name
             binding.tvTitle.text = article.title
 
         }

@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -27,7 +28,7 @@ class NewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // binding = ActivityNewsBinding.inflate(layoutInflater)
         val rebo = NewsRepository(ArticleDatabase.instance(this))
-        val providerFactory = NewsViewModelProviderFactory(rebo,this)
+        val providerFactory = NewsViewModelProviderFactory(rebo, application)
         newsViewModel = ViewModelProvider(this, providerFactory).get(NewsViewModel::class.java)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)

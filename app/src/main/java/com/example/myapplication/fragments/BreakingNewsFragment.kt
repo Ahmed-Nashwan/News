@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -61,32 +62,83 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             when (response) {
                 is Resource.Success -> {
                     // binding?.rvBreakingNews?.visibility = INVISIBLE
-                    progressBar?.visibility = INVISIBLE
+                    hideProgressbar()
                     response.data?.let { newsRespose ->
-                        adapter.asyncListDiffer.submitList(newsRespose.articles)
+                        adapter.asyncListDiffer.submitList(newsRespose.articles.toList()) // differ just take a list not a mutable list
+                        val totalPages = newsRespose.totalResults / 20 + 2
+                        isLastPage = newsViewModel.breakingNewsPage == totalPages
 
+                        if (isLastPage) {
+                            recyclerView?.setPadding(0, 0, 0, 0)
+                        }
                     }
 
                 }
                 is Resource.Loading -> {
                     //binding?.rvBreakingNews?.visibility = VISIBLE
-                    progressBar?.visibility = VISIBLE
+                    showProgressbar()
                 }
                 is Resource.Error -> {
                     response.message?.let { error ->
-                        Log.d("ttt", "error in get data in lifecycle this is error name : $error")
+                        tv_no_Internet?.visibility = VISIBLE
+                        tv_no_Internet?.text = error
                     }
 
                 }
-                is Resource.NotInternet -> {
-                    //  binding?.tvNoInternet?.visibility = VISIBLE
-                    tv_no_Internet?.visibility = VISIBLE
-                }
+
             }
 
         })
 
+    }
 
+
+    var isLoading = false
+    var isScrolling = false
+    var isLastPage = false
+
+    private fun hideProgressbar() {
+        progressBar?.visibility = INVISIBLE
+        isLoading = false
+
+    }
+
+    private fun showProgressbar() {
+        progressBar?.visibility = VISIBLE
+        isLoading = true
+
+    }
+
+    var scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount // return number of elements that showed
+            val totalItemCount =
+                layoutManager.itemCount // return number of elements that give it to adapter
+
+            val isNotLoadingAndNotInTheLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAlBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= 20
+            val shouldPaginate =
+                isNotLoadingAndNotInTheLastPage && isAtLastItem && isNotAlBeginning && isTotalMoreThanVisible && isScrolling
+
+            if (shouldPaginate) {
+                newsViewModel.getBreakingNews("us")
+                isScrolling = false
+
+            }
+        }
     }
 
     private fun setupAdapter() {
@@ -97,7 +149,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(activity)
-
+        recyclerView?.addOnScrollListener(this.scrollListener)
 
     }
 }

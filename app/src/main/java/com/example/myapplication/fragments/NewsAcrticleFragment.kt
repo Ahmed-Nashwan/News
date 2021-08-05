@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.myapplication.NewsActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentBreakingNewsBinding
+import com.example.myapplication.models.Article
 import com.example.myapplication.view_model.NewsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -27,9 +28,7 @@ class NewsAcrticleFragment : Fragment(R.layout.fragment_article){
         webView = view.findViewById(R.id.webView)
 
 
-      val article =   args.article
-        Log.d("ttt",article.url)
-        Log.d("ttt","hello world")
+      val article:Article =   args.article
 
         fab?.setOnClickListener {
             newsViewModel.insert(article)
@@ -39,7 +38,7 @@ class NewsAcrticleFragment : Fragment(R.layout.fragment_article){
 
         webView?.apply {
          webViewClient =    WebViewClient()
-            loadUrl(article.url)
+            article.url?.let { loadUrl(it) }
         }
 
 
